@@ -8,13 +8,14 @@
                         <li class="list-group-item"><a id="orders-tab"  data-toggle="tab" href="#orders" aria-controls="orders" aria-selected="false" class="btn btn-link btn-sm">Order history</a></li>
                     </ul>
                     <ul class="list-group mt-5">
-                        <li class="list-group-item"><a href="#" class="btn btn-link btn-sm">Log out</a></li>
+                        <li class="list-group-item"><a href="#" class="btn btn-link btn-sm" @click="logoutUser">Log out</a></li>
                     </ul>
                 </div>
                 <div class="col-md-9">
                     <div class="card tab-content" id="myTabContent">
                         <div class="tab-pane card-body" id="profile" role="tabpanel" aria-labelledby="profile-tab" aria-selected="true">
-                            <p>Your profile info will be displayed here!</p>
+                            <p>Welcome, {{user.name}}</p>
+                            <p>{{user.email}}</p>
                         </div>
                         <div class="tab-pane card-body" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                             <p>Your order history</p>
@@ -52,6 +53,15 @@
                     },
                 ]
             }
+        },
+        methods:{
+          logoutUser: function () {
+              localStorage.clear();
+              window.location = '/account';
+          }
+        },
+        created() {
+            this.user = JSON.parse(localStorage.getItem('_user')) || {};
         }
     }
 </script>

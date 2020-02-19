@@ -37,6 +37,12 @@
         },
         created: function () {
             this.getData();
+            let user = JSON.parse(localStorage.getItem('_user')) || {};
+            user.roles.filter(role => {
+                if (role !== "user"){
+                    this.authorized = true;
+                }
+            });
         }
     }
 </script>

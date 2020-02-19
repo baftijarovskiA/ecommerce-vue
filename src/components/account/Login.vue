@@ -22,6 +22,10 @@
 </template>
 
 <script>
+
+    import Auth from "../../Auth";
+    import axios from 'axios';
+
     export default {
         name: "Login",
         data(){
@@ -39,8 +43,21 @@
                     email: this.email,
                     password: this.password
                 };
-                console.log(user);
+                this.logUser(user);
                 e.preventDefault();
+            },
+            logUser: function (user) {
+                axios({
+                    method:'post',
+                    url:'http://localhost:8000/api/login',
+                    data: user
+                }).then( response => {
+                    let user = response.data.user;
+                    let token = response.data.token;
+                    let auth = new Auth(user,token);
+                    console.log(auth.getUser());
+                    window.location = "/account";
+                }).catch( err => console.log(err));
             }
         }
     }

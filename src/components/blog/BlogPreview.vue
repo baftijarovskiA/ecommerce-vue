@@ -23,6 +23,7 @@
         components: {EditPost},
         data(){
             return{
+                user: {},
                 authorized: false,
                 post:{}
             }
@@ -51,6 +52,12 @@
         },
         created: function () {
             this.getSlug();
+            let user = JSON.parse(localStorage.getItem('_user')) || {};
+            user.roles.filter(role => {
+                if (role === "manager" || role === "admin"){
+                    this.authorized = true;
+                }
+            });
         }
     }
 </script>

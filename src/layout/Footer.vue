@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-2">
+    <div class="mt-2 mb-5">
         <hr/>
         <div class="container text-left">
             <small>eCommerce &copy; 2020</small>
