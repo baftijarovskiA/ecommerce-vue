@@ -7,14 +7,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form @submit="formCheck" >
+            <form @submit="formCheck" datatype="f">
                 <div class="form-group">
                     <label for="postTitle">Title</label>
-                    <input type="text" id="postTitle" class="form-control" placeholder="Post Title" v-model="newTitle" required/>
+                    <input type="text" id="postTitle" class="form-control" placeholder="Post Title" v-model="post.title" required/>
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <ckeditor :editor="editor" v-model="newContent" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="post.content" :config="editorConfig"></ckeditor>
                     <!--                    <textarea id="postContent" class="form-control" placeholder="Post Content" v-model="newContent" required/>-->
                 </div>
                 <div class="form-group">
@@ -30,7 +30,6 @@
 <script>
     import axios from 'axios';
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
     export default {
         name: "EditPost",
         props: ['post'],
@@ -38,9 +37,9 @@
             return{
                 alert:false,
                 message: '',
-                newTitle: this.post.title,
-                newContent: this.post.content,
-                newImage: null,
+                newTitle: '',
+                newContent: '',
+                newImage: '',
                 editor: ClassicEditor,
                 editorConfig: {
                     // The configuration of the editor.
@@ -53,17 +52,21 @@
                 this.newImage = event.target.files[0];
             },
             formCheck: function (e){
-                this.editPost(this.getFormData());
+                this.newTitle = this.post.title;
+                this.newContent = this.post.content;
+                this.createPost();
                 e.preventDefault();
             },
             getFormData: function () {
                 const data = new FormData();
+                console.log(this.newTitle);
                 data.append('title',this.newTitle);
                 data.append('content',this.newContent);
-                data.append('cover_image',this.newImage, this.newImage.name);
+                data.append('cover_image',this.newImage);
                 return data;
             },
-            editPost: function (post) {
+            createPost: function () {
+                let post = this.getFormData();
                 axios({
                     method:'put',
                     url:`http://localhost:8000/api/posts/edit/${post.id}`,
@@ -72,25 +75,25 @@
                 })
                     .then( response => {
                         console.log(response);
-                        // this.alert = true;
-                        // let status = response.status;
-                        // if (status === 200){
-                        //     this.message = 'Post updated successfully!';
-                        // } else {
-                        //     this.message = 'Error updating post! Try again later!';
-                        // }
-                        // this.newTitle= '';
-                        // this.newContent= '';
-                        // this.newImage = null;
+                        this.alert = true;
+                        let status = response.status;
+                        if (status === 200){
+                            this.message = 'Post updated successfully!';
+                        } else {
+                            this.message = 'Error updating post! Try again later!';
+                        }
+                        this.newTitle= '';
+                        this.newContent= '';
+                        this.newImage = null;
                     })
                     .catch(err => {
-                        console.log(err.response.data);
-                        // let data = err.response.data;
-                        // let res = data.split("[");
-                        // let fin = res[1].split('"');
-                        // let result = fin[1];
-                        // this.alert = true;
-                        // this.message = result;
+                        console.log(err);
+                        let data = err.response.data;
+                        let res = data.split("[");
+                        let fin = res[1].split('"');
+                        let result = fin[1];
+                        this.alert = true;
+                        this.message = result;
                     });
             }
         },

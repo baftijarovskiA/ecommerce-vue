@@ -39,7 +39,7 @@
                 message: '',
                 newTitle: '',
                 newContent: '',
-                newImage: null,
+                newImage: '',
                 editor: ClassicEditor,
                 editorConfig: {
                     // The configuration of the editor.
@@ -59,7 +59,7 @@
                 const data = new FormData();
                 data.append('title',this.newTitle);
                 data.append('content',this.newContent);
-                data.append('cover_image',this.newImage, this.newImage.name);
+                data.append('cover_image',this.newImage);
                 return data;
             },
             createPost: function (post) {
@@ -70,6 +70,7 @@
                     headers: {'Authorization': 'Bearer '+localStorage.getItem("_session")}
                 })
                 .then( response => {
+                    console.log(response);
                     this.alert = true;
                     let status = response.status;
                     if (status === 200){
@@ -82,6 +83,7 @@
                     this.newImage = null;
                 })
                 .catch(err => {
+                    console.log(err);
                     let data = err.response.data;
                     let res = data.split("[");
                     let fin = res[1].split('"');
