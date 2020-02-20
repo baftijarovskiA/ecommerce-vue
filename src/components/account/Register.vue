@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "Register",
         data(){
@@ -50,8 +51,21 @@
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 };
-                console.log(user);
+                this.registerUser(user);
                 e.preventDefault();
+            },
+            registerUser: function (user) {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:8000/api/register',
+                    data: user
+                })
+                .then(response => {
+                    let token = response.data.token;
+                    localStorage.clear();
+                    localStorage.setItem('_session',token);
+                    window.location.reload();
+                }).catch(err => console.log(err));
             }
         }
     }

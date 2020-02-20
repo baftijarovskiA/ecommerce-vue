@@ -1,6 +1,9 @@
 <template>
-    <div class="card tab-card">
+    <div class="card">
         <div class="card-body">
+            <div v-if="user.is_verified === 0" class="alert alert-warning">
+                Your email is not confirmed! Please check your mail and verify your account.
+            </div>
             <div class="row">
                 <div class="col-md-3 tab-card-header">
                     <ul class="list-group card-header-tabs" id="myTab" role="tablist">
@@ -13,7 +16,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="card tab-content" id="myTabContent">
-                        <div class="tab-pane card-body" id="profile" role="tabpanel" aria-labelledby="profile-tab" aria-selected="true">
+                        <div class="tab-pane active card-body" id="profile" role="tabpanel" aria-labelledby="profile-tab" >
                             <p>Welcome, {{user.name}}</p>
                             <p>{{user.email}}</p>
                         </div>
@@ -30,6 +33,7 @@
 
 <script>
     import OrderHistoryTable from "./OrderHistoryTable";
+    import axios from 'axios';
     export default {
         name: "Profile",
         components: {OrderHistoryTable},
@@ -57,11 +61,36 @@
         methods:{
           logoutUser: function () {
               localStorage.clear();
-              window.location = '/account';
+              window.location.reload();
+          },
+          getHeaders: function () {
+              let token = localStorage.getItem('_session') || null;
+              if (token != null){
+                  return {'Authorization': 'Bearer '+ token}
+              }
+              return null;
+          },
+          isLogged: function(){
+              let token = localStorage.getItem('_session') || null;
+              return token != null;
+
+          },
+          getUser: function () {
+              if (this.isLogged()){
+                  axios({
+                      method: 'get',
+                      url: 'http://localhost:8000/api/user',
+                      headers: this.getHeaders()
+                  })
+                  .then((response) => {
+                      this.user = response.data.user;
+                  })
+                  .catch(err => console.log(err));
+              }
           }
         },
         created() {
-            this.user = JSON.parse(localStorage.getItem('_user')) || {};
+            this.getUser();
         }
     }
 </script>

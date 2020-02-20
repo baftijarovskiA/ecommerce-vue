@@ -14,7 +14,7 @@
                         <router-link to="/blog" class="nav-item nav-link">Blog</router-link>
                     </div>
                     <div class="navbar-nav ml-auto">
-                        <router-link to="/account" class="nav-item nav-link">Account</router-link>
+                        <router-link to="/account" class="nav-item nav-link">{{account}}</router-link>
                         <router-link to="/cart" class="nav-item nav-link">Cart</router-link>
                     </div>
                 </div>
@@ -24,8 +24,33 @@
 </template>
 
 <script>
+    import Profile from "../components/account/profile/Profile";
+    import axios from "axios";
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        data(){
+            return{
+                account: 'Account'
+            }
+        },
+        methods:{
+            getUser: function () {
+                if (Profile.methods.isLogged()){
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:8000/api/user',
+                        headers: Profile.methods.getHeaders()
+                    })
+                        .then((response) => {
+                            this.account = response.data.user.name;
+                        })
+                        .catch(err => console.log(err));
+                }
+            }
+        },
+        created: function () {
+            this.getUser();
+        }
     }
 </script>
 

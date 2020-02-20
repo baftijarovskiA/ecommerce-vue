@@ -22,8 +22,6 @@
 </template>
 
 <script>
-
-    import Auth from "../../Auth";
     import axios from 'axios';
 
     export default {
@@ -52,11 +50,10 @@
                     url:'http://localhost:8000/api/login',
                     data: user
                 }).then( response => {
-                    let user = response.data.user;
                     let token = response.data.token;
-                    let auth = new Auth(user,token);
-                    console.log(auth.getUser());
-                    window.location = "/account";
+                    localStorage.clear();
+                    localStorage.setItem('_session',token);
+                    window.location.reload();
                 }).catch( err => console.log(err));
             }
         }

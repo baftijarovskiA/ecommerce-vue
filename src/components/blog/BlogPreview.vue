@@ -19,12 +19,12 @@
 <script>
     import axios from 'axios';
     import EditPost from "./EditPost";
+    import Profile from "../account/profile/Profile";
     export default {
         name: "BlogPreview",
         components: {EditPost},
         data(){
             return{
-                user: null,
                 authorized: false,
                 post:{}
             }
@@ -45,22 +45,33 @@
                 axios({
                     method:'put',
                     url:`http://localhost:8000/api/posts/${id}`,
-                    headers: {'Authorization': 'Bearer '+localStorage.getItem("_session")}
+                    headers: Profile.methods.getHeaders()
                 })
                 .then(res => {console.log(res); window.location="/blog"; })
                 .catch(err => console.log(err.response.data));
+            },
+            getUser: function () {
+                if (Profile.methods.isLogged()){
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:8000/api/user',
+                        headers: Profile.methods.getHeaders()
+                    })
+                        .then((response) => {
+                            let roles = response.data.user.role;
+                            for (let i=0; i<roles.length; i++){
+                                if (roles[i].name === "manager" || roles[i].name === "admin"){
+                                    this.authorized = true;
+                                }
+                            }
+                        })
+                        .catch(err => console.log(err));
+                }
             }
         },
         created: function () {
             this.getSlug();
-            let user = JSON.parse(localStorage.getItem('_user')) || null;
-            if (user != null){
-                user.roles.filter(role => {
-                    if (role === "manager" || role === "admin"){
-                        this.authorized = true;
-                    }
-                });
-            }
+            this.getUser();
         }
     }
 </script>

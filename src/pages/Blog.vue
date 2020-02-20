@@ -14,11 +14,13 @@
     import axios from 'axios';
     import ControlPost from "../components/blog/ControlPost";
     import Posts from "../components/blog/Posts";
+    import Profile from "../components/account/profile/Profile";
     export default {
         name: "Blog",
         components: {Posts, ControlPost},
         data(){
             return{
+                user: {},
                 authorized: false,
                 posts: [],
             }
@@ -33,16 +35,38 @@
                         this.posts = res.data;
 
                 }).catch(err => console.log(err.response.data));
+            },
+            getHeaders: function () {
+                let token = localStorage.getItem('_session') || null;
+                if (token != null){
+                    return {'Authorization': 'Bearer '+ token}
+                }
+                return null;
+            },
+            getUser: function () {
+                if (Profile.methods.isLogged()){
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:8000/api/user',
+                        headers: this.getHeaders()
+                    })
+                        .then((response) => {
+                            this.user = response.data.user;
+                            let roles = response.data.user.role;
+                            for (let i=0; i<roles.length; i++){
+                                if (roles[i].name !== "user"){
+                                    this.authorized = true;
+                                }
+                            }
+                        })
+                        .catch(err => console.log(err));
+                }
             }
         },
         created: function () {
             this.getData();
-            let user = JSON.parse(localStorage.getItem('_user')) || {};
-            user.roles.filter(role => {
-                if (role !== "user"){
-                    this.authorized = true;
-                }
-            });
+            this.getUser();
+
         }
     }
 </script>
