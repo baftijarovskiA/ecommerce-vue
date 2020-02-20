@@ -19,6 +19,10 @@
                         <div class="tab-pane active card-body" id="profile" role="tabpanel" aria-labelledby="profile-tab" >
                             <p>Welcome, {{user.name}}</p>
                             <p>{{user.email}}</p>
+                            <div v-if="adminAuthorization">
+                                <h5>Admin Dashboard</h5>
+                                <router-link to="/admin/category">Categories</router-link>
+                            </div>
                         </div>
                         <div class="tab-pane card-body" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                             <p>Your order history</p>
@@ -39,6 +43,7 @@
         components: {OrderHistoryTable},
         data(){
             return{
+                adminAuthorization: false,
                 user:{},
                 orderHistory: [
                     {
@@ -84,6 +89,12 @@
                   })
                   .then((response) => {
                       this.user = response.data.user;
+                      let roles = response.data.user.role;
+                      for(let i=0; i<roles.length; i++){
+                          if (roles[i].name === "admin"){
+                              this.adminAuthorization = true;
+                          }
+                      }
                   })
                   .catch(err => console.log(err));
               }

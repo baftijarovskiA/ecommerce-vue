@@ -6,6 +6,8 @@ import Blog from "./pages/Blog";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import BlogPreview from "./components/blog/BlogPreview";
+import CategoryTable from "./pages/admin/CategoryTable";
+import EditCategory from "./pages/admin/EditCategory";
 
 Vue.use(Router);
 
@@ -41,6 +43,16 @@ let router = new Router({
             path: '/shop',
             name: 'shop',
             component: Shop
+        },
+        {
+            path: '/admin/category',
+            name: 'CategoryTable',
+            component: CategoryTable
+        },
+        {
+            path: '/admin/category/:id',
+            name: 'EditCategory',
+            component: EditCategory
         },
         // {
         //     path: '/secure',
