@@ -21,7 +21,10 @@
                             <p>{{user.email}}</p>
                             <div v-if="adminAuthorization">
                                 <h5>Admin Dashboard</h5>
-                                <router-link to="/admin/category">Categories</router-link>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><router-link to="/admin/category">Categories</router-link></li>
+                                    <li class="list-group-item"><router-link to="/admin/products">Products</router-link></li>
+                                </ul>
                             </div>
                         </div>
                         <div class="tab-pane card-body" id="orders" role="tabpanel" aria-labelledby="orders-tab">

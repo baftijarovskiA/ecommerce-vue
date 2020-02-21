@@ -14,7 +14,7 @@
 
 <script>
     import axios from 'axios';
-    import Profile from "../../components/account/profile/Profile";
+    import Profile from "../../../components/account/profile/Profile";
     export default {
         name: "CreateCategory",
         data(){

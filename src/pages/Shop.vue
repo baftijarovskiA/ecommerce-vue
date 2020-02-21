@@ -28,7 +28,8 @@
         data(){
             return{
                 categories: [],
-                products:[
+                products: [],
+                newProducts:[
                     {
                         id:1,
                         name:'Customized T-shirt',
@@ -58,10 +59,21 @@
                         this.categories = response.data.response;
                     })
                     .catch(err => console.log(err));
+            },
+            getProducts: function () {
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8000/api/product'
+                })
+                    .then( response => {
+                        this.products = response.data.response;
+                    })
+                    .catch(err => console.log(err));
             }
         },
         created: function () {
             this.getCategories();
+            this.getProducts();
         }
     }
 </script>

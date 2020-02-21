@@ -6,8 +6,9 @@ import Blog from "./pages/Blog";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import BlogPreview from "./components/blog/BlogPreview";
-import CategoryTable from "./pages/admin/CategoryTable";
-import EditCategory from "./pages/admin/EditCategory";
+import CategoryTable from "./pages/admin/categories/CategoryTable";
+import EditCategory from "./pages/admin/categories/EditCategory";
+import ProductTable from "./pages/admin/products/ProductTable";
 
 Vue.use(Router);
 
@@ -53,6 +54,11 @@ let router = new Router({
             path: '/admin/category/:id',
             name: 'EditCategory',
             component: EditCategory
+        },
+        {
+            path: '/admin/products',
+            name: 'ProductTable',
+            component: ProductTable
         },
         // {
         //     path: '/secure',

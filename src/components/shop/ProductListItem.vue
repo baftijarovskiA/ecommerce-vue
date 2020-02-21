@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <img :src="product.image" :alt="product.name" class="w-100" />
+        <img :src="'http://localhost:8000/storage/products/'+product.image" :alt="product.name" class="w-100" />
         <div class="card-footer text-center">
             <p class="font-weight-bold card-text" v-text="product.name"></p>
             <small class="card-text" v-text="product.details"></small>

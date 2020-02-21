@@ -14,8 +14,8 @@
 
 <script>
     import axios from 'axios';
-    import Profile from "../../components/account/profile/Profile";
-    import router from "../../router";
+    import Profile from "../../../components/account/profile/Profile";
+    import router from "../../../router";
     export default {
         name: "EditCategory",
         data(){
