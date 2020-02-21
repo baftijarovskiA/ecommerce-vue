@@ -1,7 +1,8 @@
 <template>
     <div>
 <!--        <CreateCategory /><br/>-->
-        <h3>Categories</h3><hr/>
+        <router-link to="/admin/products/create" class="btn btn-secondary float-right">Create</router-link>
+        <h3>Products</h3><hr/>
         <table class="table table-bordered table-striped mt-2">
             <thead>
             <tr>

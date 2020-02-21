@@ -9,6 +9,10 @@ import BlogPreview from "./components/blog/BlogPreview";
 import CategoryTable from "./pages/admin/categories/CategoryTable";
 import EditCategory from "./pages/admin/categories/EditCategory";
 import ProductTable from "./pages/admin/products/ProductTable";
+import ProductPreview from "./components/shop/ProductPreview";
+import checkout from "./pages/checkout";
+import CreateProduct from "./pages/admin/products/CreateProduct";
+import EditProduct from "./pages/admin/products/EditProduct";
 
 Vue.use(Router);
 
@@ -46,6 +50,11 @@ let router = new Router({
             component: Shop
         },
         {
+            path: '/checkout',
+            name: 'checkout',
+            component: checkout
+        },
+        {
             path: '/admin/category',
             name: 'CategoryTable',
             component: CategoryTable
@@ -59,6 +68,21 @@ let router = new Router({
             path: '/admin/products',
             name: 'ProductTable',
             component: ProductTable
+        },
+        {
+            path: '/product/:slug',
+            name: 'ProductPreview',
+            component: ProductPreview
+        },
+        {
+            path: '/admin/products/create',
+            name: 'CreateProduct',
+            component: CreateProduct
+        },
+        {
+            path: '/admin/products/:id',
+            name: 'EditProduct',
+            component: EditProduct
         },
         // {
         //     path: '/secure',

@@ -28,25 +28,7 @@
         data(){
             return{
                 categories: [],
-                products: [],
-                newProducts:[
-                    {
-                        id:1,
-                        name:'Customized T-shirt',
-                        slug: 'customized-t-shirt',
-                        details: 'Short details for this customized t-shirt',
-                        price: '320',
-                        image:'https://cdn.shopify.com/s/files/1/1038/1798/products/1bfdea18816493.562cfcdb8778e.jpg'
-                    },
-                    {
-                        id:2,
-                        name:'Customized T-shirt',
-                        slug: 'customized-t-shirt',
-                        details: 'Short details for this customized t-shirt',
-                        price: '280',
-                        image:'https://cdn.shopify.com/s/files/1/1038/1798/products/1bfdea18816493.562cfcdb8778e.jpg'
-                    }
-                ]
+                products: []
             }
         },
         methods: {
